@@ -138,7 +138,10 @@ module SecureHeaders
 
       cookie.split(/[;,]\s?/).each do |pairs|
         name, values = pairs.split("=", 2)
-        next if name.nil?
+        if name.nil?
+          puts "[MALFORMED COOKIE] #{cookie}"
+          next
+        end
         name = CGI.unescape(name)
 
         attribute = name.downcase.to_sym
